@@ -1,8 +1,103 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model PhoneCaseGetListViewModel
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Cart</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <style>
+        .card-img-top {
+            height: 180px; /* Kart resmi için sabit yükseklik */
+            object-fit: cover; /* Resmin kartı doldurmasını sağlar */
+        }
+
+        .card {
+            margin-bottom: 20px; /* Kartlar arasında boşluk */
+        }
+
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-footer {
+            text-align: right;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .card-footer .btn {
+                background: transparent;
+                border: none;
+                color: red;
+                font-size: 1.5rem;
+            }
+
+                .card-footer .btn:hover {
+                    color: darkred;
+                }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Your Cart</h1>
+
+        @if (Model.Cases.Any())
+        {
+            <div class="row">
+                @foreach (var item in Model.Cases)
+                {
+                    <div class="col-md-4">
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg" alt="@item.Description">
+                            <div class="card-body">
+                                <h5 class="card-title">@item.Description</h5>
+                                <p class="card-text">Price: @item.Price.ToString("C")</p>
+                                <p class="card-text">Quantity:@item.Model.Name @item.Vendor.Name </p>
+                            </div>
+                            <div class="card-footer">
+                                <strong>Total:  </strong>
+                                <button class="btn" type="button" aria-label="Like">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                        <path d="M8 15s7-4.438 7-9a3.5 3.5 0 0 0-7-3.5A3.5 3.5 0 0 0 1 6c0 4.562 7 9 7 9z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="mt-4">
+                <h4>Total Cart Value:hhg</h4>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info" role="alert">
+                Your cart is empty.
+            </div>
+        }
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> 
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // JavaScript to toggle the liked state of the button
+        document.addEventListener('DOMContentLoaded', function () {
+            var likeButtons = document.querySelectorAll('.card-footer .btn');
+
+            likeButtons.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    button.classList.toggle('liked');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

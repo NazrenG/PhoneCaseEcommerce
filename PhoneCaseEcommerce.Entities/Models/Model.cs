@@ -11,6 +11,8 @@ public partial class Model
 
     public int VendorId { get; set; }
 
+    //nav prop
+
     public virtual ICollection<PhoneCase> PhoneCases { get; set; } = new List<PhoneCase>();
 
     public virtual Vendor Vendor { get; set; } = null!;

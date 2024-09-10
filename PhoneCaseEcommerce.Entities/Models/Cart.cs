@@ -13,6 +13,8 @@ public partial class Cart
 
     public int? Quantity { get; set; }
 
+
+    //navigation prop
     public virtual PhoneCase PhoneCase { get; set; } = null!;
 
     public virtual User User { get; set; } = null!;

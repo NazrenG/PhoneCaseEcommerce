@@ -19,4 +19,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PhoneCaseEcommerce.DataAccess\PhoneCaseEcommerce.DataAccess.csproj" />
+    <ProjectReference Include="..\PhoneCaseEcommerce.Entities\PhoneCaseEcommerce.Entities.csproj" />
+  </ItemGroup>
+
 </Project>

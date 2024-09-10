@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using PhoneCaseEcommerce.Business.Abstract;
 using PhoneCaseEcommerce.WebUI.Models;
 using System.Diagnostics;
 
@@ -6,16 +7,22 @@ namespace PhoneCaseEcommerce.WebUI.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IPhoneCaseService phoneCaseService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IPhoneCaseService phoneCaseService)
         {
-            _logger = logger;
+            this.phoneCaseService = phoneCaseService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+         var items= await  phoneCaseService.GetCaseWithModelVendor();
+
+            var cases = new PhoneCaseGetListViewModel
+            {
+                Cases = items
+            };
+            return View(cases);
         }
 
         public IActionResult Privacy()

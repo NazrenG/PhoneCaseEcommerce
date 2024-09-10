@@ -85,7 +85,7 @@ GO
 CREATE TABLE [dbo].[Favorites](
 	[Id] INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
 		[PhoneCaseId] INT FOREIGN KEY REFERENCES PhoneCases(Id)NOT NULL,
-)
+) 
 
 GO
 

@@ -13,6 +13,7 @@ public partial class OrderDetail
 
     public int Quantity { get; set; }
 
+    //nav prop
     public virtual Order Order { get; set; } = null!;
 
     public virtual PhoneCase PhoneCase { get; set; } = null!;

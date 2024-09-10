@@ -1,9 +1,10 @@
-﻿using System;
+﻿using PhoneCaseEcommerce.Core.Abstract;
+using System;
 using System.Collections.Generic;
-
+ 
 namespace PhoneCaseEcommerce.Entities.Models;
 
-public partial class PhoneCase
+public partial class PhoneCase: IEntity
 {
     public int Id { get; set; }
 
@@ -21,6 +22,8 @@ public partial class PhoneCase
 
     public int UserId { get; set; }
 
+
+    //nav prop
     public virtual ICollection<Cart> Carts { get; set; } = new List<Cart>();
 
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();

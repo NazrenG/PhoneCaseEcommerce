@@ -17,6 +17,8 @@ public partial class User
 
     public string? Email { get; set; }
 
+    //nav prop
+
     public virtual ICollection<Cart> Carts { get; set; } = new List<Cart>();
 
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();

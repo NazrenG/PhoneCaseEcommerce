@@ -10,6 +10,7 @@ public partial class UserImage
     public int UserId { get; set; }
 
     public string? Path { get; set; }
+    //nav prop
 
     public virtual User User { get; set; } = null!;
 }

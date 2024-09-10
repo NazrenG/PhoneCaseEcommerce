@@ -8,7 +8,7 @@ public partial class Vendor
     public int Id { get; set; }
 
     public string? Name { get; set; }
-
+    //nav prop
     public virtual ICollection<Model> Models { get; set; } = new List<Model>();
 
     public virtual ICollection<PhoneCase> PhoneCases { get; set; } = new List<PhoneCase>();

@@ -10,6 +10,7 @@ public partial class PhoneColor
     public int PhoneCaseId { get; set; }
 
     public int ColorId { get; set; }
+    //nav prop
 
     public virtual Color Color { get; set; } = null!;
 

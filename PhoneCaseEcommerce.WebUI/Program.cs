@@ -1,7 +1,24 @@
+using Microsoft.EntityFrameworkCore;
+using PhoneCaseEcommerce.Business.Abstract;
+using PhoneCaseEcommerce.Business.Concretes;
+using PhoneCaseEcommerce.DataAccess.Abstract;
+using PhoneCaseEcommerce.DataAccess.Concretes;
+using PhoneCaseEcommerce.Entities.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+var conn = builder.Configuration.GetConnectionString("Default");
+builder.Services.AddDbContext<PhoneCaseEcommerceDbContext>(opt =>
+{
+    opt.UseSqlServer(conn);
+});
+
+builder.Services.AddScoped<IPhoneCasesDal,PhoneCaseDal>();
+builder.Services.AddScoped<IPhoneCaseService,PhoneCaseService>();
+
 
 var app = builder.Build();
 

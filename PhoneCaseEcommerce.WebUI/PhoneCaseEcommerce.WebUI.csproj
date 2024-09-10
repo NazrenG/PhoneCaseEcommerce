@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PhoneCaseEcommerce.Business\PhoneCaseEcommerce.Business.csproj" />
     <ProjectReference Include="..\PhoneCaseEcommerce.Entities\PhoneCaseEcommerce.Entities.csproj" />
   </ItemGroup>
 
