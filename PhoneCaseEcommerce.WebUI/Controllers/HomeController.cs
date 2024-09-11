@@ -8,19 +8,23 @@ namespace PhoneCaseEcommerce.WebUI.Controllers
     public class HomeController : Controller
     {
         private readonly IPhoneCaseService phoneCaseService;
+        private readonly IVendorService vendorService;
 
-        public HomeController(IPhoneCaseService phoneCaseService)
+        public HomeController(IPhoneCaseService phoneCaseService, IVendorService vendorService)
         {
             this.phoneCaseService = phoneCaseService;
+            this.vendorService = vendorService;
         }
 
         public async Task<IActionResult> Index()
         {
          var items= await  phoneCaseService.GetCaseWithModelVendor();
+            var vendors = await vendorService.GetAllVendor();
 
             var cases = new PhoneCaseGetListViewModel
             {
-                Cases = items
+                Cases = items,
+                Vendors= vendors
             };
             return View(cases);
         }

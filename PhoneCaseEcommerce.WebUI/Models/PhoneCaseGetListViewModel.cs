@@ -4,6 +4,7 @@ namespace PhoneCaseEcommerce.WebUI.Models
 {
     public class PhoneCaseGetListViewModel
     {
-        public List<PhoneCase> Cases { get; set; }
+        public List<PhoneCase>? Cases { get; set; }
+        public List<Vendor> Vendors { get; internal set; }
     }
 }

@@ -22,7 +22,10 @@ namespace PhoneCaseEcommerce.DataAccess.Concretes
 
         public async Task<List<PhoneCase>> GetCaseWithModelVendor()
         {
-           return await _context.PhoneCases.Include(m=>m.Model).ThenInclude(v=>v.Vendor).ToListAsync();    
+           return await _context.PhoneCases.
+                Include(p=>p.PhotoImages).
+                Include(m=>m.Model).
+                ThenInclude(v=>v.Vendor).ToListAsync();    
         }
     }
 }

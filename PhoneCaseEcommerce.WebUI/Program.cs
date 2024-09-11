@@ -20,6 +20,9 @@ builder.Services.AddScoped<IPhoneCasesDal,PhoneCaseDal>();
 builder.Services.AddScoped<IPhoneCaseService,PhoneCaseService>();
 
 
+builder.Services.AddScoped<IVendorDal, VendorDal>();
+builder.Services.AddScoped<IVendorService, VendorService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
