@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@model LogInViewModel
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,28 +16,30 @@
             <div class="card-body">
                 <h2 class="text-center mb-4">Login</h2>
 
-                <!-- Profile Picture Upload -->
-                <div class="text-center mb-3">
-                    <img src="https://via.placeholder.com/100" class="rounded-circle mb-2" id="profileImage" alt="Profile Image">
-                    <input type="file" class="form-control form-control-sm" id="imageUpload" onchange="readURL(this);">
-                </div>
+              <form method="post" asp-controller="Auth" asp-action="LogIn">  
+                    <!-- Profile Picture Upload -->
+                    <div class="text-center mb-3">
+                        <img src="https://via.placeholder.com/100" class="rounded-circle mb-2" id="profileImage" alt="Profile Image">
+                        <input type="file" class="form-control form-control-sm" id="imageUpload" onchange="readURL(this);">
+                    </div>
 
-                <!-- Username -->
-                <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="username" placeholder="Enter your username">
-                </div>
+                    <!-- Username -->
+                    <div class="mb-3">
+                        <label asp-for="Username" class="form-label">Username</label>
+                        <input type="text" class="form-control" asp-for="Username" placeholder="Enter your username">
+                    </div>
 
-                <!-- Password -->
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="Enter your password">
-                </div>
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label">Password</label>
+                        <input type="password" class="form-control" asp-for="Password" placeholder="Enter your password">
+                    </div>
 
-                <!-- Login Button -->
-                <div class="d-grid">
-                    <button type="button" class="btn btn-primary">Login</button>
-                </div>
+                    <!-- Login Button -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+              </form>
             </div>
         </div>
     </div>

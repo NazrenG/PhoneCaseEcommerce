@@ -33,7 +33,7 @@ public partial class PhoneCaseEcommerceDbContext : DbContext
 
     public virtual DbSet<PhoneColor> PhoneColors { get; set; }
 
-    public virtual DbSet<PhotoImage> PhotoImages { get; set; }
+    public virtual DbSet<PhoneCaseImage> PhoneCaseImages { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
@@ -169,7 +169,7 @@ public partial class PhoneCaseEcommerceDbContext : DbContext
                 .HasConstraintName("FK__PhoneColo__Phone__4D94879B");
         });
 
-        modelBuilder.Entity<PhotoImage>(entity =>
+        modelBuilder.Entity<PhoneCaseImage>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__PhotoIma__3214EC0787A656C9");
 

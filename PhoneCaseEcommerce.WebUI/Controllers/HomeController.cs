@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PhoneCaseEcommerce.Business.Abstract;
 using PhoneCaseEcommerce.WebUI.Models;
@@ -16,6 +17,7 @@ namespace PhoneCaseEcommerce.WebUI.Controllers
             this.vendorService = vendorService;
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
          var items= await  phoneCaseService.GetCaseWithModelVendor();
@@ -29,6 +31,7 @@ namespace PhoneCaseEcommerce.WebUI.Controllers
             return View(cases);
         }
 
+        [Authorize(Roles = "User")]
         public IActionResult Privacy()
         {
             return View();

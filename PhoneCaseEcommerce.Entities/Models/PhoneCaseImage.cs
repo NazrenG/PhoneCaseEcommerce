@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PhoneCaseEcommerce.Entities.Models;
 
-public partial class PhotoImage
+public partial class PhoneCaseImage
 {
     public int Id { get; set; }
 
