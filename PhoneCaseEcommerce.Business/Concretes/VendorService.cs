@@ -4,6 +4,7 @@ using PhoneCaseEcommerce.Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,9 +19,11 @@ namespace PhoneCaseEcommerce.Business.Concretes
             this.vendorDal = vendorDal;
         }
 
+
         public async Task<List<Vendor>> GetAllVendor()
         {
-           return await vendorDal.GetList();
+            return
+                 await vendorDal.GetList();
         }
     }
 }

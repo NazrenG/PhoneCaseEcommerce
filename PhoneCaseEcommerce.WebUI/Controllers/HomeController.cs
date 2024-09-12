@@ -16,9 +16,9 @@ namespace PhoneCaseEcommerce.WebUI.Controllers
             this.vendorService = vendorService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int vendorId=0)
         {
-         var items= await  phoneCaseService.GetCaseWithModelVendor();
+         var items= await  phoneCaseService.GetCaseWithModelVendor(vendorId);
             var vendors = await vendorService.GetAllVendor();
 
             var cases = new PhoneCaseGetListViewModel
@@ -28,7 +28,12 @@ namespace PhoneCaseEcommerce.WebUI.Controllers
             };
             return View(cases);
         }
+        public async Task<IActionResult> FilterByVendorName(int vendorId)
+        {
+            var filter = await phoneCaseService.FilterByVendorName(vendorId);
 
+            return RedirectToAction("Index",filter);
+        }
         public IActionResult Privacy()
         {
             return View();

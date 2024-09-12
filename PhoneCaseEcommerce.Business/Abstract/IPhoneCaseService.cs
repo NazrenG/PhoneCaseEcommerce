@@ -15,6 +15,7 @@ namespace PhoneCaseEcommerce.Business.Abstract
         Task Update(PhoneCase phoneCase);
         Task Delete(int id);
 
-        Task<List<PhoneCase>> GetCaseWithModelVendor();
+        Task<List<PhoneCase>> GetCaseWithModelVendor(int vendorId = 0);
+        Task<List<PhoneCase>> FilterByVendorName(int vendorId);
     }
 }

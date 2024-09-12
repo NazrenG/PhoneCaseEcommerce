@@ -20,12 +20,26 @@ namespace PhoneCaseEcommerce.DataAccess.Concretes
             _context = context; 
         }
 
-        public async Task<List<PhoneCase>> GetCaseWithModelVendor()
+        public async Task<List<PhoneCase>> FilterByVendorName(int vendorId)
         {
+           return await _context.PhoneCases.
+                Include(m => m.Model).
+                ThenInclude(v => v.Vendor).
+                Where(l=>l.VendorId==vendorId).ToListAsync();
+        }
+
+        public async Task<List<PhoneCase>> GetCaseWithModelVendor(int vendorId=0)
+        {
+            if(vendorId==0)
            return await _context.PhoneCases.
                 Include(p=>p.PhotoImages).
                 Include(m=>m.Model).
-                ThenInclude(v=>v.Vendor).ToListAsync();    
+                ThenInclude(v=>v.Vendor).ToListAsync();  
+            else
+                return await _context.PhoneCases.
+                Include(p => p.PhotoImages).
+                Include(m => m.Model).
+                ThenInclude(v => v.Vendor).Where(i=>i.Id==vendorId).ToListAsync();
         }
     }
 }
