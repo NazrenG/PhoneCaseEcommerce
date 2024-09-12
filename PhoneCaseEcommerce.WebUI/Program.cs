@@ -1,9 +1,12 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using PhoneCaseEcommerce.Business.Abstract;
 using PhoneCaseEcommerce.Business.Concretes;
 using PhoneCaseEcommerce.DataAccess.Abstract;
 using PhoneCaseEcommerce.DataAccess.Concretes;
 using PhoneCaseEcommerce.Entities.Models;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,8 +21,22 @@ builder.Services.AddDbContext<PhoneCaseEcommerceDbContext>(opt =>
 
 builder.Services.AddScoped<IPhoneCasesDal,PhoneCaseDal>();
 builder.Services.AddScoped<IPhoneCaseService,PhoneCaseService>();
+builder.Services.AddScoped<IAuthDal, AuthDal>();
 
 
+var key = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value);
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+               .AddJwtBearer(options =>
+               {
+                   options.TokenValidationParameters = new TokenValidationParameters
+                   {
+                       ValidateIssuerSigningKey = true,
+                       IssuerSigningKey = new SymmetricSecurityKey(key),
+                       ValidateIssuer = false,
+                       ValidateAudience = false,
+                   };
+               });
 builder.Services.AddScoped<IVendorDal, VendorDal>();
 builder.Services.AddScoped<IVendorService, VendorService>();
 

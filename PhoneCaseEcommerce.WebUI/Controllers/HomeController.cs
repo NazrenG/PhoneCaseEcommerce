@@ -1,7 +1,10 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PhoneCaseEcommerce.Business.Abstract;
 using PhoneCaseEcommerce.WebUI.Models;
+
 using System.Diagnostics;
+
 
 namespace PhoneCaseEcommerce.WebUI.Controllers
 {
@@ -16,7 +19,7 @@ namespace PhoneCaseEcommerce.WebUI.Controllers
             this.vendorService = vendorService;
         }
 
-        public async Task<IActionResult> Index(int vendorId=0)
+        public async Task<IActionResult> Index()
         {
          var items= await  phoneCaseService.GetCaseWithModelVendor(vendorId);
             var vendors = await vendorService.GetAllVendor();
@@ -32,8 +35,6 @@ namespace PhoneCaseEcommerce.WebUI.Controllers
         {
             var filter = await phoneCaseService.FilterByVendorName(vendorId);
 
-            return RedirectToAction("Index",filter);
-        }
         public IActionResult Privacy()
         {
             return View();
