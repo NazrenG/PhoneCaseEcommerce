@@ -10,7 +10,9 @@ namespace PhoneCaseEcommerce.DataAccess.Abstract
 {
     public interface IPhoneCasesDal : IEntityRepository<PhoneCase>
     {
-        Task<List<PhoneCase>> GetCaseWithModelVendor(int vendorId=0);
-        Task<List<PhoneCase>> FilterByVendorName(int vendorId);
+        //filter by model,vendor,color
+        Task<List<PhoneCase>> GetCaseWithModelVendor(int vendorId=0,int colorId=0,int modelId=0);
+        // premium,popular ,best seller
+        Task<List<PhoneCase>> GetSortedList(string value); 
     }
 }

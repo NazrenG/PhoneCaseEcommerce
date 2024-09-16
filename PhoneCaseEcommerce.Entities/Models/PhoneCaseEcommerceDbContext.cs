@@ -89,6 +89,11 @@ public partial class PhoneCaseEcommerceDbContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PK__Favorite__3214EC0798DA10ED");
 
+            entity.HasOne(d => d.User).WithMany(p => p.Favorites)
+               .HasForeignKey(d => d.UserId)
+               .OnDelete(DeleteBehavior.ClientSetNull)
+               .HasConstraintName("FK__Favorites__UserI__6E01572D");
+
             entity.HasOne(d => d.PhoneCase).WithMany(p => p.Favorites)
                 .HasForeignKey(d => d.PhoneCaseId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -173,7 +178,7 @@ public partial class PhoneCaseEcommerceDbContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PK__PhotoIma__3214EC0787A656C9");
 
-            entity.HasOne(d => d.PhoneCase).WithMany(p => p.PhotoImages)
+            entity.HasOne(d => d.PhoneCase).WithMany(p => p.PhoneCaseImages)
                 .HasForeignKey(d => d.PhoneCaseId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__PhotoImag__Phone__4AB81AF0");

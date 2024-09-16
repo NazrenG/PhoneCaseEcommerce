@@ -36,7 +36,7 @@ public partial class PhoneCase: IEntity
 
     public virtual ICollection<PhoneColor> PhoneColors { get; set; } = new List<PhoneColor>();
 
-    public virtual ICollection<PhoneCaseImage> PhotoImages { get; set; } = new List<PhoneCaseImage>();
+    public virtual ICollection<PhoneCaseImage> PhoneCaseImages { get; set; } = new List<PhoneCaseImage>();
 
     public virtual User User { get; set; } = null!;
 

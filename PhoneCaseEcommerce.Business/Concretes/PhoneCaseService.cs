@@ -29,11 +29,7 @@ namespace PhoneCaseEcommerce.Business.Concretes
             await phoneCasesDal.Delete(item);
 
         }
-
-        public async Task<List<PhoneCase>> FilterByVendorName(int vendorId)
-        {
-           return await phoneCasesDal.FilterByVendorName(vendorId);
-        }
+         
 
         public async Task<List<PhoneCase>> GetAllCases()
         {
@@ -45,12 +41,15 @@ namespace PhoneCaseEcommerce.Business.Concretes
            return await phoneCasesDal.Get(p=>p.Id==id);
         }
 
-        public async Task<List<PhoneCase>> GetCaseWithModelVendor(int vendorId = 0)
+        public async Task<List<PhoneCase>> GetCaseWithModelVendor(int vendorId = 0, int colorId = 0, int modelId = 0)
         {
-           return await phoneCasesDal.GetCaseWithModelVendor(vendorId);
+           return await phoneCasesDal.GetCaseWithModelVendor(vendorId,colorId,modelId);
         }
 
-        
+        public async Task<List<PhoneCase>> GetSortedList(string value)
+        {
+            return await phoneCasesDal.GetSortedList(value);
+        }
 
         public async Task Update(PhoneCase phoneCase)
         {

@@ -2,8 +2,8 @@
 
 namespace PhoneCaseEcommerce.Business.Abstract
 {
-    public interface IVendorService
+    public interface IModelService
     {
-        Task<List<Vendor>> GetAllVendor( ); 
+        Task<List<Model>> GetModelListAsync();
     }
 }

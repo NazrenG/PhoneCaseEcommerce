@@ -1,9 +1,10 @@
-﻿using System;
+﻿using PhoneCaseEcommerce.Core.Abstract;
+using System;
 using System.Collections.Generic;
 
 namespace PhoneCaseEcommerce.Entities.Models;
 
-public partial class Model
+public partial class Model:IEntity
 {
     public int Id { get; set; }
 

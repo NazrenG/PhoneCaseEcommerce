@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PhoneCaseEcommerce.Business.Abstract;
@@ -6,6 +7,7 @@ using PhoneCaseEcommerce.Business.Concretes;
 using PhoneCaseEcommerce.DataAccess.Abstract;
 using PhoneCaseEcommerce.DataAccess.Concretes;
 using PhoneCaseEcommerce.Entities.Models;
+using PhoneCaseEcommerce.WebUI.Entities;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,8 +21,25 @@ builder.Services.AddDbContext<PhoneCaseEcommerceDbContext>(opt =>
     opt.UseSqlServer(conn);
 });
 
-builder.Services.AddScoped<IPhoneCasesDal,PhoneCaseDal>();
-builder.Services.AddScoped<IPhoneCaseService,PhoneCaseService>();
+builder.Services.AddDbContext<CustomIdentiyDbContext>(opt =>opt.UseSqlServer(conn));
+builder.Services.AddIdentity<CustomIdentityUser, CustomIdentityRole>()
+    .AddEntityFrameworkStores<CustomIdentiyDbContext>()
+    .AddDefaultTokenProviders();
+
+ 
+
+builder.Services.AddScoped<IPhoneCasesDal, PhoneCaseDal>();
+builder.Services.AddScoped<IPhoneCaseService, PhoneCaseService>();
+builder.Services.AddScoped<IModelDal, ModelDal>();
+builder.Services.AddScoped<IModelService, ModelService>();
+builder.Services.AddScoped<IColorDal, ColorDal>();
+builder.Services.AddScoped<IColorService, ColorService>();
+builder.Services.AddScoped<IFavDal, FavDal>();
+builder.Services.AddScoped<IFavService, FavService>();
+
+
+
+
 builder.Services.AddScoped<IAuthDal, AuthDal>();
 
 
@@ -35,6 +54,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                        IssuerSigningKey = new SymmetricSecurityKey(key),
                        ValidateIssuer = false,
                        ValidateAudience = false,
+                       ValidateLifetime = false,
+
                    };
                });
 builder.Services.AddScoped<IVendorDal, VendorDal>();
@@ -54,6 +75,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication();
 
 app.UseAuthorization();
 

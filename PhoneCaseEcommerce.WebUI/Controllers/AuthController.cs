@@ -80,7 +80,7 @@ namespace PhoneCaseEcommerce.WebUI.Controllers
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
-            return RedirectToAction("Index","Home");
+            return Ok(new { token = tokenString });
         }
     }
 }

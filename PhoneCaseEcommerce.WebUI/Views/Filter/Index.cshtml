@@ -1,0 +1,164 @@
+﻿@model PhoneCaseGetListViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone Cases</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .card {
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .favorite-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+        }
+
+            .favorite-btn i {
+                color: gray;
+                transition: color 0.3s;
+            }
+
+                .favorite-btn i.favorited {
+                    color: red;
+                }
+
+        .add-to-cart-btn {
+            float: right;
+        }
+
+        .custom-btn {
+            background-color: transparent;
+            border: 1px solid #6C757D;
+            color: black;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+            .custom-btn:hover {
+                background-color: rgba(128, 128, 128, 0.4);
+                box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+            }
+    </style>
+</head>
+<body>
+    <div class="d-flex">
+        @foreach (var i in Model.Vendors)
+        {
+            <button type="button" class="btn custom-btn mx-2">
+                <a style="color:black;text-decoration:none" asp-controller="Filter" asp-action="Index" asp-route-vendorId="@i.Id" asp-route-modelId="@ViewData["modelId"]" asp-route-colorId="@ViewData["colorId"]">@i.Name</a>
+            </button>
+        }
+        <button type="button" class="btn custom-btn mx-2">
+            <a style="color:black;text-decoration:none" asp-controller="Filter" asp-action="Index" asp-route-vendorId="0">Butun Kateqoriyalar</a>
+        </button>
+    </div>
+    <br />
+
+    <div class="d-flex">
+        @foreach (var i in Model.Models)
+        {
+            <button type="button" class="btn custom-btn mx-2">
+                <a style="color:black;text-decoration:none" asp-controller="Filter" asp-action="Index" asp-route-vendorId="@ViewData["vendorId"]" asp-route-modelId="@i.Id" asp-route-colorId="@ViewData["colorId"]">@i.Name</a>
+            </button>
+        }
+        <button type="button" class="btn custom-btn mx-2">
+            <a style="color:black;text-decoration:none" asp-controller="Filter" asp-action="Index" asp-route-modelId="0">Butun Modeller</a>
+        </button>
+    </div>
+    <br />
+    <div class="d-flex">
+        @foreach (var i in Model.Colors)
+        {
+            <button type="button" class="btn custom-btn mx-2">
+                <a style="color:black;text-decoration:none" asp-controller="Filter" asp-action="Index" asp-route-vendorId="@ViewData["vendorId"]" asp-route-modelId="@ViewData["modelId"]" asp-route-colorId="@i.Id">@i.Name</a>
+            </button>
+        }
+        <button type="button" class="btn custom-btn mx-2">
+            <a style="color:black;text-decoration:none" asp-controller="Filter" asp-action="Index" asp-route-colorId="0">Butun Rengler</a>
+        </button>
+    </div>
+
+    <div class="container mt-5">
+        <h1>Phone Cases</h1>
+        <div class="row">
+            @foreach (var phoneCase in Model.Cases)
+            {
+                <div class="col-md-4">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="@phoneCase.PhoneCaseImages.FirstOrDefault(p => p.PhoneCase == phoneCase)?.Path" alt="@phoneCase.Description">
+                        <div class="card-body">
+                            <h5 class="card-title">@phoneCase.Model.Name @phoneCase.Vendor.Name </h5>
+                            <h5 class="card-text" style="color:red">@phoneCase.Price.ToString("C")</h5>
+
+                            <button class="btn btn-primary add-to-cart-btn">Indi al</button>
+                        </div>
+                        <h3>@phoneCase.UserId</h3>
+                        <h3>@phoneCase.Id</h3>
+                        <form method="post" asp-controller="Filter" asp-action="AddFavorites">
+                            <input type="hidden" name="caseId" value="@phoneCase.Id" />
+                            <button type="submit" class="favorite-btn" onclick="toggleFavorite(event, @phoneCase.Id)">
+                                <i class="bi bi-heart"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        async function toggleFavorite(event, caseId) {
+            event.preventDefault(); // Formun otomatik submit edilmesini engeller
+
+            const button = event.currentTarget;
+            const icon = button.querySelector('i');
+            icon.classList.toggle('favorited');
+
+            const token = localStorage.getItem('token');
+
+            try {
+                const response = await fetch('/Filter', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({caseId })
+                });
+
+                const contentType = response.headers.get('Content-Type');
+
+                if (response.ok) {
+                    if (contentType && contentType.includes('application/json')) {
+                        const data = await response.json();
+                        console.log('Favorilere eklendi', data);
+                    } else {
+                        const text = await response.text();
+                        console.error('Beklenmedik yanıt:', text);
+                    }
+                } else {
+                    const text = await response.text();
+                    console.error('Hata:', text);
+                }
+            } catch (error) {
+                console.error('Fetch hata:', error);
+            }
+        }
+
+    </script>
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+</body>
+</html>

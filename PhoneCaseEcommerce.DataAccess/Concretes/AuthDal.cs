@@ -30,7 +30,7 @@ namespace PhoneCaseEcommerce.DataAccess.Concretes
             return user;
         }
 
-        private bool VerifyPasswordHash(string password, byte[]? passwordHash, byte[]? passwordSalt)
+        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512(passwordSalt))
             {

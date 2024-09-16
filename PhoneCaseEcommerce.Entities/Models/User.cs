@@ -27,5 +27,7 @@ public partial class User
 
     public virtual ICollection<PhoneCase> PhoneCases { get; set; } = new List<PhoneCase>();
 
+    public virtual ICollection<Favorite> Favorites { get; set; } = new List<Favorite>();
+
     public virtual ICollection<UserImage> UserImages { get; set; } = new List<UserImage>();
 }

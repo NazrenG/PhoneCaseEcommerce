@@ -1,14 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PhoneCaseEcommerce.Core;
 using PhoneCaseEcommerce.Core.Concretes;
 using PhoneCaseEcommerce.DataAccess.Abstract;
 using PhoneCaseEcommerce.Entities.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PhoneCaseEcommerce.DataAccess.Concretes
 {
@@ -17,29 +10,50 @@ namespace PhoneCaseEcommerce.DataAccess.Concretes
         private readonly PhoneCaseEcommerceDbContext _context;
         public PhoneCaseDal(PhoneCaseEcommerceDbContext context) : base(context)
         {
-            _context = context; 
+            _context = context;
         }
-
-        public async Task<List<PhoneCase>> FilterByVendorName(int vendorId)
+         
+        public async Task<List<PhoneCase>> GetCaseWithModelVendor(int vendorId = 0, int colorId = 0, int modelId = 0)
         {
-           return await _context.PhoneCases.
-                Include(m => m.Model).
-                ThenInclude(v => v.Vendor).
-                Where(l=>l.VendorId==vendorId).ToListAsync();
-        }
+            var query = _context.PhoneCases
+           .Include(p => p.PhoneCaseImages)
+           .Include(m => m.Model)
+           .ThenInclude(v => v.Vendor)
+           .Include(pc => pc.PhoneColors)
+           .ThenInclude(c => c.Color)
+           .AsQueryable();
+             
 
-        public async Task<List<PhoneCase>> GetCaseWithModelVendor(int vendorId=0)
-        {
-            if(vendorId==0)
-           return await _context.PhoneCases.
-                Include(p=>p.PhotoImages).
-                Include(m=>m.Model).
-                ThenInclude(v=>v.Vendor).ToListAsync();  
-            else
-                return await _context.PhoneCases.
-                Include(p => p.PhotoImages).
-                Include(m => m.Model).
-                ThenInclude(v => v.Vendor).Where(i=>i.Id==vendorId).ToListAsync();
+            if (vendorId != 0)
+            {
+                query = query.Where(pc => pc.VendorId == vendorId);
+            }
+            if (colorId != 0)
+            {
+                query = query.Where(pc => pc.PhoneColors.Any(c => c.ColorId == colorId));
+            }
+            if (modelId != 0)
+            {
+                query = query.Where(pc => pc.ModelId == modelId);
+            }
+
+            return await query.ToListAsync();
+
+
         }
+        
+
+        public async Task<List<PhoneCase>> GetSortedList(string value)
+        {
+            return await _context.PhoneCases.Where(p => p.Premium == value)
+                   .Include(p => p.PhoneCaseImages)
+              .Include(m => m.Model)
+              .ThenInclude(v => v.Vendor)
+              .Include(pc => pc.PhoneColors)
+              .ThenInclude(c => c.Color).Take(4).ToListAsync();
+        }
+   
+    
+    
     }
 }

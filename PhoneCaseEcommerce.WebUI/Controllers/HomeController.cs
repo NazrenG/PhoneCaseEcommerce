@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PhoneCaseEcommerce.Business.Abstract;
 using PhoneCaseEcommerce.WebUI.Models;
@@ -10,40 +9,29 @@ namespace PhoneCaseEcommerce.WebUI.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IPhoneCaseService phoneCaseService;
-        private readonly IVendorService vendorService;
 
-        public HomeController(IPhoneCaseService phoneCaseService, IVendorService vendorService)
+        private readonly IPhoneCaseService phoneCaseService; 
+
+        public HomeController(IPhoneCaseService phoneCaseService)
         {
-            this.phoneCaseService = phoneCaseService;
-            this.vendorService = vendorService;
+            this.phoneCaseService = phoneCaseService; 
         }
 
-        public async Task<IActionResult> Index()
-        {
-         var items= await  phoneCaseService.GetCaseWithModelVendor(vendorId);
-            var vendors = await vendorService.GetAllVendor();
+        public  async Task<IActionResult> Index()
+        { 
 
-            var cases = new PhoneCaseGetListViewModel
+            var model = new CasesGetListViewModel
             {
-                Cases = items,
-                Vendors= vendors
+                PremiumList = await phoneCaseService.GetSortedList("Premium"), 
+                BestSellerList = await phoneCaseService.GetSortedList("Popular"), 
+                CommentedList = await phoneCaseService.GetSortedList("Simple"), 
             };
-            return View(cases);
+         
+            return View(model);
         }
-        public async Task<IActionResult> FilterByVendorName(int vendorId)
-        {
-            var filter = await phoneCaseService.FilterByVendorName(vendorId);
+        
+         
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+     
     }
 }
